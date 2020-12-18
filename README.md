@@ -15,6 +15,16 @@ make verify
 ```
 ----
 
+# Implementation Details
+
+## Instruction memory [instmem.sv]
+For the ease of implementation this CPU will have a separate code and data memory, i.e to say it is based on the `Harvard Architecture`. The size of `instruction memory` is `128 Bytes`.
+
+The instruction memory takes in a `7 Bit` wide address and outputs `32 Bit` instruction which is then consumed by rest of the system.
+
+**Note:** The instruction memory module has a configurable parameter - `code_file` which is a text file that can be provided during instantiation. This file would contain the instructions in Hex format and be used to init the instruction memory content during synthesis.
+
+----
 # Resources and References
 1. [RISC-V Specification](https://riscv.org/technical/specifications/)
 2. Youtube Channel: [RISC-V International](https://www.youtube.com/channel/UC5gLmcFuvdGbajs4VL-WU3g) 

@@ -22,14 +22,14 @@
  * SOFTWARE.
  */
 
-module instmem #(parameter code = "")
+module instmem #(parameter code_file = "")
                 (input logic [6:0] addr,
                  output logic [31:0] instr);
     /* code memory */
     logic [31:0] mem[0:127];
 
     /* load the instructions from a file */
-    initial $readmemh(code, mem);
+    initial $readmemh(code_file, mem);
 
     assign instr = mem[addr];
 endmodule
