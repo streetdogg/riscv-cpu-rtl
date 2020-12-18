@@ -1,6 +1,6 @@
 # RISC-V RV32I Implementation
 
-Implements the base integer instruction for the RISC-V 32 bit CPU.
+Implements the base integer instruction set for the RISC-V 32 bit CPU.
 
 ## Linting
 Run the following to run `verilator` and check that the language rules are followed correctly.
