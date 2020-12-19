@@ -33,4 +33,4 @@ jobs:
         run: make
       
       - name: Check instruction memory initialization
-        run: make verify
+        run: make verify instmem reg_file

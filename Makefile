@@ -22,13 +22,18 @@
 # SOFTWARE.
 #
 
-TOP = instmem
+# Handle Verification commands as a group
+ifeq (verify, $(word 1, $(MAKECMDGOALS)))
+TOP = $(filter-out verify, $(MAKECMDGOALS))
+endif
 
+# Source code paths
 ROOT_DIR = $(shell pwd)
-SRC = src/instmem.sv
-SRC_V = src_v/instmem.cpp
+SRC = src
+SRC_V = src_v
 INC = $(ROOT_DIR)/src_v/include/
 
+# Tools and flags
 VERILATOR = verilator
 VERILATOR-FLAGS = --lint-only -Wall --top-module $(TOP)
 VERIFY-FLAGS = -Wall --cc -CFLAGS "-std=c++11 -I$(INC)" --exe
@@ -36,10 +41,21 @@ VERIFY-FLAGS = -Wall --cc -CFLAGS "-std=c++11 -I$(INC)" --exe
 lint: $(SRC)
 	$(VERILATOR) $(VERILATOR-FLAGS) $^
 
-verify: $(SRC) $(SRC_V)
-	$(VERILATOR) $(VERIFY-FLAGS) $^
-	make -C obj_dir/ -f V$(TOP).mk
-	./obj_dir/V$(TOP)
+.SILENT:
+$(TOP):
+	echo "[Building $@]"
+	$(VERILATOR) $(VERIFY-FLAGS) $(SRC)/$@.sv $(SRC_V)/$@.cpp
+	make -C obj_dir/ -f V$@.mk
+	./obj_dir/V$@
 
+.SILENT:
 clean:
 	rm -rf obj_dir/
+
+#dummy target, print the usage
+verify:
+ifeq (, $(filter-out verify, $(MAKECMDGOALS)))
+	@echo "Usage: make verify module [other modules space separated]"
+endif
+
+.PHONY: verify clean

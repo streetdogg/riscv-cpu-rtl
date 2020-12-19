@@ -36,6 +36,8 @@ int main(int argc, char **argv, char **env) {
         address++;
     }
 
+    printf("All Checks Passed!\n");
+
 terminate:
     progFile.close();
     instmem->final();
