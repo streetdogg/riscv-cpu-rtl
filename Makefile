@@ -22,11 +22,6 @@
 # SOFTWARE.
 #
 
-# Handle Verification commands as a group
-ifeq (verify, $(word 1, $(MAKECMDGOALS)))
-TOP = $(filter-out verify, $(MAKECMDGOALS))
-endif
-
 # Source code paths
 ROOT_DIR = $(shell pwd)
 SRC = src
@@ -35,22 +30,21 @@ INC = $(ROOT_DIR)/src_v/include/
 
 # Tools and flags
 VERILATOR = verilator
-VERILATOR-FLAGS = --lint-only -Wall --top-module $(TOP)
+VERILATOR-FLAGS = --lint-only -Wall 
 VERIFY-FLAGS = -Wall --cc -CFLAGS "-std=c++11 -I$(INC)" --exe
 
-lint: $(SRC)
-	$(VERILATOR) $(VERILATOR-FLAGS) $^
+lint:
+ifeq (, $(filter-out lint, $(MAKECMDGOALS)))
+	@echo "Usage: make lint module [other modules space separated]"
+endif
 
-.SILENT:
+# Handle linting commands as a group
+ifeq (lint, $(word 1, $(MAKECMDGOALS)))
+TOP = $(filter-out lint, $(MAKECMDGOALS))
+
 $(TOP):
-	echo "[Building $@]"
-	$(VERILATOR) $(VERIFY-FLAGS) $(SRC)/$@.sv $(SRC_V)/$@.cpp
-	make -C obj_dir/ -f V$@.mk
-	./obj_dir/V$@
-
-.SILENT:
-clean:
-	rm -rf obj_dir/
+	$(VERILATOR) $(VERILATOR-FLAGS) --top-module $@ $(SRC)/$@.sv
+endif
 
 #dummy target, print the usage
 verify:
@@ -58,4 +52,20 @@ ifeq (, $(filter-out verify, $(MAKECMDGOALS)))
 	@echo "Usage: make verify module [other modules space separated]"
 endif
 
-.PHONY: verify clean
+# Handle Verification commands as a group
+ifeq (verify, $(word 1, $(MAKECMDGOALS)))
+TOP = $(filter-out verify, $(MAKECMDGOALS))
+
+.SILENT:
+$(TOP):
+	echo "[Building $@]"
+	$(VERILATOR) $(VERIFY-FLAGS) $(SRC)/$@.sv $(SRC_V)/$@.cpp
+	make -C obj_dir/ -f V$@.mk
+	./obj_dir/V$@
+endif
+
+.SILENT:
+clean:
+	rm -rf obj_dir/
+
+.PHONY: verify clean lint
