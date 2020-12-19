@@ -32,3 +32,5 @@ The instruction memory takes in a `7 Bit` wide address and outputs `32 Bit` inst
 4. [E85: Digital Electronics & Computer Architecture (David Harris, Joshua Brake)](http://pages.hmc.edu/harris/class/e85/)
 5. [CSCI 463 Computer Architecture and Systems Organization Fall 2020 (John Winans)](http://faculty.cs.niu.edu/~winans/CS463/Fall2020/)
     - Youtube Playlist: [Fall 2020 NIU CSCI 463](https://www.youtube.com/playlist?list=PL3by7evD3F500w-kleB4MITsxeq5J5PaT)
+6. [Verilator Documentation](https://www.veripool.org/projects/verilator/wiki/Documentation)
+    - [Verilator Manual](https://www.veripool.org/ftp/verilator_doc.pdf)

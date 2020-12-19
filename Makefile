@@ -23,12 +23,15 @@
 #
 
 TOP = instmem
+
+ROOT_DIR = $(shell pwd)
 SRC = src/instmem.sv
 SRC_V = src_v/instmem.cpp
+INC = $(ROOT_DIR)/src_v/include/
 
 VERILATOR = verilator
 VERILATOR-FLAGS = --lint-only -Wall --top-module $(TOP)
-VERIFY-FLAGS = -Wall --cc -CFLAGS "-std=c++11" --exe
+VERIFY-FLAGS = -Wall --cc -CFLAGS "-std=c++11 -I$(INC)" --exe
 
 lint: $(SRC)
 	$(VERILATOR) $(VERILATOR-FLAGS) $^

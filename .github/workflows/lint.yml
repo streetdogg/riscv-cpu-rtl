@@ -31,3 +31,6 @@ jobs:
       
       - name: Lint source
         run: make
+      
+      - name: Check instruction memory initialization
+        run: make verify

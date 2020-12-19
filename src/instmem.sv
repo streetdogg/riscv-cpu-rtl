@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-module instmem #(parameter code_file = "")
+module instmem #(parameter code_file = "program.txt")
                 (input logic [6:0] addr,
                  output logic [31:0] instr);
     /* code memory */
