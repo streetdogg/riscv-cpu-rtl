@@ -30,7 +30,7 @@ jobs:
         run: sudo apt install -y verilator
       
       - name: Lint source
-        run: make lint instmem reg_file
+        run: make lint instmem reg_file ctrl_unit
       
       - name: Check instruction memory initialization
-        run: make verify instmem reg_file
+        run: make verify instmem reg_file ctrl_unit
